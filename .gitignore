@@ -1,0 +1,84 @@
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.vcxproj.user
+*.pdb
+*.cache
+*.log
+*.tlog
+*.ide
+
+# Build Results
+bin/
+obj/
+out/
+
+# Debugging files
+*.pdb
+
+# ASP.NET Specific
+*.db
+*.db-journal
+App_Data/
+wwwroot/
+
+# Entity Framework
+migrations/
+
+# Rider & JetBrains
+.idea/
+.idea/**/*
+*.sln.iml
+*.DotSettings.user
+*.DotSettings
+
+# Sensitive Information
+appsettings.json
+appsettings.*.json
+
+# Packages
+*.nupkg
+*.snupkg
+packages/
+*.dSYM/
+
+# Code Coverage Results
+*.coverage
+*.coveragexml
+coverage.opencover.xml
+coverage.cobertura.xml
+
+# Resharper Files
+_ReSharper*/
+*.DotSettings.user
+
+# Others
+*.sql
+*.sqlite
+*.sqlite3
+*.swp
+*.sln.docstates
+
+# Git merge conflict files
+*.orig
+
+# Logs
+*.log
+logs/
+
+# Docker
+docker-compose.override.yml
+*.dockerignore
+
+# Temp files
+*.tmp
+*.temp
+*.bak
+*.old
+
+# OS-specific files
+Thumbs.db
+.DS_Store
+*.swp
