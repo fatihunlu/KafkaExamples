@@ -6,4 +6,4 @@ The code provides a practical example of working with Kafka in a .NET applicatio
 
 ### Read More on Medium
 For a detailed explanation and practical examples, check out my Medium post
-👉 [medium link](?)
+👉 [medium link](https://unlu-fa.medium.com/kafka-series-vol-1-what-is-kafka-e687fe32bb26)
