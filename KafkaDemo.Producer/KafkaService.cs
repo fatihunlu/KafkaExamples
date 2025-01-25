@@ -1,117 +1,69 @@
+using System.Text.Json;
 using Confluent.Kafka;
 using Confluent.Kafka.Admin;
+using KafkaDemo.Producer.Events;
 
 namespace KafkaDemo.Producer;
 
 public class KafkaService
 {
-    public async Task CreateTopic(string topicName)
+    /// <summary>
+    /// Creates a Kafka topic with the specified name, number of partitions, and replication factor.
+    /// </summary>
+    /// <param name="topicName">The name of the topic to be created.</param>
+    /// <param name="numPartitions">The number of partitions for the topic (default is 2).</param>
+    /// <param name="replicationFactor">The replication factor for the topic (default is 1).</param>
+    public async Task CreateTopicAsync(string topicName, int numPartitions = 2, short replicationFactor = 1)
     {
-        using var client = new AdminClientBuilder(new AdminClientConfig()
+        using var client = new AdminClientBuilder(new AdminClientConfig
         {
             BootstrapServers = "localhost:9094",
         }).Build();
 
         try
         {
-            await client.CreateTopicsAsync([
-                new TopicSpecification(){ Name = topicName }
-            ]);
-            
-            Console.WriteLine($"{topicName} is successfully created \u2705 ");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-    }
-    public async Task RemoveTopic(string topicName)
-    {
-        using var client = new AdminClientBuilder(new AdminClientConfig()
-        {
-            BootstrapServers = "localhost:9094",
-        }).Build();
-        
-        try
-        {
-            await client.DeleteTopicsAsync(new[] { topicName });
-            Console.WriteLine($"Topic '{topicName}' has been deleted successfully. \u2705 ");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-    } 
-    public async Task ListTopics()
-    {
-        using var client = new AdminClientBuilder(new AdminClientConfig()
-        {
-            BootstrapServers = "localhost:9094",
-        }).Build();
-
-        try
-        {
-            var metadata = client.GetMetadata(TimeSpan.FromSeconds(10));
-            
-            Console.WriteLine("Topics in the cluster:");
-            foreach (var topic in metadata.Topics)
+            var topicSpecification = new TopicSpecification
             {
-                Console.WriteLine($" 🗂️ {topic.Topic}");
-            }
+                Name = topicName,
+                NumPartitions = numPartitions,
+                ReplicationFactor = replicationFactor
+            };
+
+            await client.CreateTopicsAsync([topicSpecification]);
+            Console.WriteLine($"Topic '{topicName}' created successfully. \u2728 ");
         }
-        catch (Exception ex)
+        catch (CreateTopicsException ex)
         {
-            Console.WriteLine($"An error occurred while listing topics: {ex.Message}");
+            Console.WriteLine(ex.Message);
         }
     }
     
-    public async Task SendMessage(string topicName, string key, string value)
+    /// <summary>
+    /// Sends a message containing an OrderShippedNotification to the specified Kafka topic.
+    /// </summary>
+    /// <param name="topicName">The name of the Kafka topic to send the message to.</param>
+    /// <param name="notificationEvent">The OrderShippedNotification object containing the message data.</param>
+    public async Task SendMessageAsync(string topicName, OrderShippedNotification notificationEvent)
     {
         var config = new ProducerConfig
         {
-            BootstrapServers = "localhost:9094"
+            BootstrapServers = "localhost:9094",
         };
 
-        using var producer = new ProducerBuilder<string, string>(config).Build();
-
+        using var producer = new ProducerBuilder<Null, string>(config).Build();
         try
         {
-            var result = await producer.ProduceAsync(topicName, new Message<string, string>
+            var value = JsonSerializer.Serialize(notificationEvent);
+            var result = await producer.ProduceAsync(topicName, new Message<Null, string>
             {
-                Key = key,
                 Value = value
             });
 
-            Console.WriteLine($"\ud83d\udce4 Message delivered to {result.TopicPartitionOffset}");
+            Console.WriteLine($"The message OrderCode:{notificationEvent.OrderCode} sent to Partition:{result.Partition} and Offset:{result.Offset} 🚀");
         }
         catch (ProduceException<string, string> ex)
         {
             Console.WriteLine($"Failed to deliver message: {ex.Error.Reason}");
-        }
-    }
-    
-    public async Task GetTopicPartitions(string topicName)
-    {
-        using var adminClient = new AdminClientBuilder(new AdminClientConfig
-        {
-            BootstrapServers = "localhost:9094"
-        }).Build();
-
-        try
-        {
-            var metadata = adminClient.GetMetadata(topicName, TimeSpan.FromSeconds(10));
-
-            Console.WriteLine($"Topic: {topicName}");
-            Console.WriteLine($"Partition Count: {metadata.Topics[0].Partitions.Count}");
-
-            foreach (var partition in metadata.Topics[0].Partitions)
-            {
-                Console.WriteLine($"Partition ID: {partition.PartitionId}");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }
 }

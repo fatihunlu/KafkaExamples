@@ -6,8 +6,10 @@ var cts = new CancellationTokenSource();
 try
 {
     var kafkaService = new KafkaService();
-    var topicName = "topic-" + DateTime.Now.ToString("yyyyMMdd");
-    await kafkaService.ConsumeMessages(topicName, cts.Token);
+    
+    var consumerGroup = args.Length > 0 ? args[0] : "default-consumer-group";
+    var topicName = "order-shipped-notifications";
+    await kafkaService.ConsumeMessages(topicName, consumerGroup, cts.Token);
 }
 catch (Exception ex)
 {

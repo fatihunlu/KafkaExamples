@@ -1,15 +1,22 @@
 ﻿using KafkaDemo.Producer;
+using KafkaDemo.Producer.Events;
 
-var topicName = "topic-" + DateTime.Now.ToString("yyyyMMdd");
 var kafkaService = new KafkaService();
-await kafkaService.CreateTopic(topicName);
-await kafkaService.SendMessage(topicName, "key-hello", "value-world");
 
-// To remove a topic:
-// await kafkaService.RemoveTopic(topicName);
+var topicName = "order-shipped-notifications";
+await kafkaService.CreateTopicAsync(topicName);
 
-// To list topics:
-// await kafkaService.ListTopics();
-
-// To see topic partitions:
-// await kafkaService.GetTopicPartitions(topicName);
+while (true)
+{
+    await kafkaService.SendMessageAsync(
+        topicName,
+        new OrderShippedNotification
+        {
+            OrderCode = Guid.NewGuid().ToString(),
+            ShippedDate = DateTime.UtcNow,
+            CarrierName = "random-carrier",
+            TrackingNumber = $"TRK-{Guid.NewGuid().ToString("N").Substring(0, 10)}"
+        }
+    );
+    await Task.Delay(1000);
+}
