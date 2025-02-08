@@ -1,15 +1,20 @@
 ﻿using KafkaDemo.Producer;
+using KafkaDemo.Producer.Events;
 
-var topicName = "topic-" + DateTime.Now.ToString("yyyyMMdd");
 var kafkaService = new KafkaService();
-await kafkaService.CreateTopic(topicName);
-await kafkaService.SendMessage(topicName, "key-hello", "value-world");
+const string topicName = "socialmedia-user-follow";
+await kafkaService.CreateTopicAsync(topicName);
 
-// To remove a topic:
-// await kafkaService.RemoveTopic(topicName);
-
-// To list topics:
-// await kafkaService.ListTopics();
-
-// To see topic partitions:
-// await kafkaService.GetTopicPartitions(topicName);
+var rand = new Random();
+while (true)
+{
+    await kafkaService.SendMessageAsync(
+        topicName,
+        new FollowerEvent
+        {
+            FollowerId = rand.Next(1, 10),
+            FolloweeId = rand.Next(20, 30),
+        }
+    );
+    await Task.Delay(1000);
+}
