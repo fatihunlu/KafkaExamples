@@ -1,14 +1,29 @@
 # KafkaDemo: Understanding Kafka
 
-This project demonstrates a simple Kafka producer and consumer implementation using the **Confluent.Kafka** library. 
-It includes features for creating, deleting, listing topics, sending messages, and consuming them. 
-The code provides a practical example of working with Kafka in a .NET application.
+KafkaDemo demonstrates how to use Kafka for processing "follow" events in a social media platform. It includes a Producer that sends random follow events to Kafka and a Consumer that listens for these events and stores them in MongoDB.
 
+[Medium Link](https://unlu-fa.medium.com/kafka-series-vol-3-handling-follow-events-in-social-media-8f82084b561a)
 
-| Branch Name                                                                        | Article Title                                        | Link to Article                                                                           |
-|------------------------------------------------------------------------------------|------------------------------------------------------|-------------------------------------------------------------------------------------------|
-| [master](https://github.com/fatihunlu/KafkaDemo/tree/master)                       | Kafka Series Vol. 1: What is Kafka?                  | [Read Article](https://medium.com/@unlu-fa/kafka-series-vol-1-what-is-kafka-e687fe32bb26) |
-| [kafka-series-vol2](https://github.com/fatihunlu/KafkaDemo/tree/kafka-series-vol2) | Kafka Series Vol. 2: From Serialization to Consumer Groups | [Read Article](https://unlu-fa.medium.com/kafka-series-vol-2-from-serialization-to-consumer-groups-109b498c89d3)                                                                          |
-| ...                                                                                | ...                                                  | ...                                                                                       |
+## Features
+* **Kafka Producer**: Sends random follow events to Kafka.
+* **Kafka Consumer**: Listens for events and processes them.
+* **MongoDB**: Stores user data with follower information.
+* **Docker**: Manages Kafka and MongoDB services.
 
+## Setup
 
+1. Clone the repository
+```
+git clone --branch kafka-series-vol3 https://github.com/fatihunlu/KafkaDemo.git
+cd KafkaDemo
+```
+2. Build and start the services with Docker Compose:
+```
+docker compose up -d
+```
+3. Run producer and consumer
+```
+dotnet run --project ./KafkaDemo.Producer
+dotnet run --project ./KafkaDemo.Consumer
+
+```
