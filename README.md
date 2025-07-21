@@ -1,7 +1,7 @@
 # KafkaDemo: Understanding Kafka
 
-This project demonstrates a simple Kafka producer and consumer implementation using the **Confluent.Kafka** library. 
-It includes features for creating, deleting, listing topics, sending messages, and consuming them. 
+This project demonstrates a simple Kafka producer and consumer implementation using Confluent.Kafka library.
+It includes functionality for creating, deleting, and listing topics, as well as sending and consuming messages.
 The code provides a practical example of working with Kafka in a .NET application.
 
 
