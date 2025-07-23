@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6 d17.14
+VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaDemo.Producer", "KafkaDemo.Producer\KafkaDemo.Producer.csproj", "{F11A38C7-E8FC-434B-BE12-9AC82D247213}"
 EndProject
@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaDemo.DLQHandler", "KafkaDemo.DLQHandler\KafkaDemo.DLQHandler.csproj", "{FBD3C8D7-FF5C-4146-A030-0103FE606E9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,8 +28,15 @@ Global
 		{D607BD97-0957-4CE1-8243-793F100C7A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D607BD97-0957-4CE1-8243-793F100C7A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D607BD97-0957-4CE1-8243-793F100C7A7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBD3C8D7-FF5C-4146-A030-0103FE606E9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBD3C8D7-FF5C-4146-A030-0103FE606E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBD3C8D7-FF5C-4146-A030-0103FE606E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBD3C8D7-FF5C-4146-A030-0103FE606E9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57D43527-D333-4E1F-BC96-DD13D3D140B6}
 	EndGlobalSection
 EndGlobal
