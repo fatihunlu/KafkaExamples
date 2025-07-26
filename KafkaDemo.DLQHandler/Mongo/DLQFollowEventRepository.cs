@@ -16,6 +16,5 @@ public class DLQFollowEventRepository
     public async Task InsertAsync(DLQFollowEvent evt)
     {
         await _collection.InsertOneAsync(evt);
-        Console.WriteLine($"Inserted DLQ event to MongoDB: {evt.ErrorMessage}");
     }
 }

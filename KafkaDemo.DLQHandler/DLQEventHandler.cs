@@ -38,7 +38,7 @@ public class DLQEventHandler(IMongoClient mongoClient)
                 if (dlqEvent != null)
                 {
                     await _repository.InsertAsync(dlqEvent);
-                    Console.WriteLine($"Inserted DLQ event to MongoDB: {dlqEvent.ErrorMessage}");
+                    Console.WriteLine($"Inserted DLQ event to MongoDB.\n ErrorMessage: {dlqEvent.ErrorMessage}");
                 }
             }
             catch (Exception ex)

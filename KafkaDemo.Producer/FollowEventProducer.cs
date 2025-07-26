@@ -16,10 +16,12 @@ public class FollowEventProducer
 
         using var producer = new ProducerBuilder<string, string>(config).Build();
 
-        for (int i = 0; i < 5; i++)
+        int counter = 0;
+
+        while (true)
         {
-            var followerId = $"user-{i}";
-            var followeeId = (i % 2 == 0) ? followerId : $"user-{i + 1}"; // deliberately cause self-follow
+            var followerId = $"user-{counter}";
+            var followeeId = (counter % 2 == 0) ? followerId : $"user-{counter + 1}"; // deliberately cause self-follow
 
             var payload = new
             {
@@ -37,7 +39,10 @@ public class FollowEventProducer
             };
 
             var result = await producer.ProduceAsync(TopicName, message);
-            Console.WriteLine($"Sent: {followerId} → {followeeId} | {result.TopicPartitionOffset}");
+            Console.WriteLine($"Sent: {followerId} => {followeeId} | {result.TopicPartitionOffset}");
+
+            counter++;
+            await Task.Delay(2000); // wait 2 seconds before sending next message
         }
     }
 }

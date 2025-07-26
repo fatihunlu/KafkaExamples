@@ -34,6 +34,6 @@ public class DLQPublisher
         };
 
         await _producer.ProduceAsync(DLQTopic, message);
-        Console.WriteLine($"Sent to DLQ: {originalKey} | Error: {error}");
+        Console.WriteLine($"Sent to DLQ: {originalKey}");
     }
 }
