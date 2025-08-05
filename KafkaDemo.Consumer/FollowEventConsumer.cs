@@ -39,7 +39,17 @@ public class FollowEventConsumer
                 var obj = JsonSerializer.Deserialize<FollowEvent>(json);
 
                 if (obj == null)
-                    throw new Exception("Invalid JSON payload");
+                {
+                    // NOTE:
+                    // If we don't want to forward schema-related issues such as invalid JSON
+                    // to the DLQ, simply log the issue and skip the message.
+
+                    // Example:
+                    // Console.WriteLine("Invalid JSON payload. Skipping DLQ.");
+                    // continue;
+
+                    throw new Exception("Invalid JSON payload"); // default behavior: send to DLQ
+                }
 
                 if (obj.FollowerId == obj.FolloweeId)
                     throw new Exception("User cannot follow themselves");
